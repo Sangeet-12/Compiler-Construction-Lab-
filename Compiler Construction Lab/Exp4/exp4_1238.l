@@ -5,12 +5,11 @@
 
 %%
 [0-9]+      { return NUMBER; }
-[ \t]+      { }
+[ \t]+      { /* ignore spaces */ }
 \n          { return '\n'; }
 .           { return yytext[0]; }
 %%
 
-int yywrap()
-{
+int yywrap() {
     return 1;
 }
