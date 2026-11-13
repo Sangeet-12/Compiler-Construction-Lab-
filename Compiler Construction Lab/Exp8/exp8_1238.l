@@ -1,20 +1,15 @@
 %{
-#include <stdlib.h>
 #include "y.tab.h"
+extern int yylval;
 %}
 
 %%
-[0-9]+(\.[0-9]+)? {
-    yylval.val = atof(yytext);
-    return NUMBER;
-}
-[ \t]+    { }
-\n        { return '\n'; }
-[+\-*/]   { return yytext[0]; }
-.         { return yytext[0]; }
+[0-9]+      { yylval = atoi(yytext); return NUMBER; }
+[ \t]       { /* ignore spaces */ }
+\n          { return '\n'; }
+.           { return yytext[0]; }
 %%
 
-int yywrap()
-{
+int yywrap() {
     return 1;
 }
