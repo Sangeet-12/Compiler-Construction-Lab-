@@ -7,10 +7,12 @@ int yyerror(const char *s);
 %}
 
 %token NUMBER
+%left '+' '-'
+%left '*' '/'
 
 %%
 input:
-      expr '\n'  { printf("Valid expression\n"); }
+      expr '\n'  { printf("Valid expression\n"); exit(0); }
     ;
 
 expr:
@@ -23,14 +25,13 @@ expr:
     ;
 %%
 
-int yyerror(const char *s)
-{
+int yyerror(const char *s) {
     printf("Invalid expression\n");
     return 0;
 }
 
-int main()
-{
+int main() {
+    printf("Name: Sangeet Harne | PRN: 24070521238\n");
     printf("Enter an arithmetic expression:\n");
     yyparse();
     return 0;
