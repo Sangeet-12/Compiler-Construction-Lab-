@@ -3,31 +3,18 @@
 %}
 
 %%
-[^\n]*COM\n {
-    printf("Line ends with COM: %s", yytext);
-}
-[^\n]*\n {
-    printf("Line does not end with COM: %s", yytext);
-}
-[^\n]+ {
-    if (yyleng >= 3 &&
-        yytext[yyleng-3] == 'C' &&
-        yytext[yyleng-2] == 'O' &&
-        yytext[yyleng-1] == 'M')
-        printf("Line ends with COM: %s\n", yytext);
-    else
-        printf("Line does not end with COM: %s\n", yytext);
-}
+.*com\n     { printf("Accepted - Ends with 'com': %s", yytext); }
+.*\n        { printf("Rejected: %s", yytext); }
+.           { /* Ignore */ }
 %%
 
-int yywrap()
-{
+int yywrap() {
     return 1;
 }
 
-int main()
-{
-    printf("Enter lines of text:\n");
+int main() {
+    printf("Name: Sangeet Harne | PRN: 24070521238\n");
+    printf("Enter lines (Press Ctrl+D to stop):\n");
     yylex();
     return 0;
 }
