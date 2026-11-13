@@ -1,27 +1,23 @@
 %{
 #include <stdio.h>
-
 int count = 0;
 %}
 
 %%
-[Aa][a-zA-Z0-9_]*
-             { count++; }
-[a-zA-Z0-9_]+ { }
-[ \t\n]+      { }
-.             { }
+[aA][a-zA-Z0-9_]*  { count++; }
+[a-zA-Z0-9_]+      { /* Ignore all other words */ }
+[ \t\n]+           { /* Ignore spaces and newlines */ }
+.                  { /* Ignore punctuation and symbols */ }
 %%
 
-int yywrap()
-{
+int yywrap() {
     return 1;
 }
 
-int main()
-{
-    printf("Enter a sentence:\n");
+int main() {
+    printf("Name: Sangeet Harne | PRN: 24070521238\n");
+    printf("Enter text (Press Ctrl+D to stop):\n");
     yylex();
-
-    printf("Words starting with A: %d\n", count);
+    printf("\nTotal words starting with 'A' or 'a': %d\n", count);
     return 0;
 }
