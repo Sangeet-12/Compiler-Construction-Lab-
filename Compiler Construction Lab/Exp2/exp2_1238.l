@@ -6,27 +6,21 @@ int words = 0, lines = 0, spaces = 0;
 %}
 
 %%
-"//"[^\n]*   { comments++; }
+"//"[^\n]*  { comments++; }
 "/*"([^*]|\*+[^*/])*\*+"/"  { comments++; }
-
-"int"|"float"|"char"|"double"|"if"|"else"|"while"|"for"|"return"|"void"
-             { keywords++; words++; }
-
-[a-zA-Z_][a-zA-Z0-9_]*
-             { identifiers++; words++; }
-
+"int"|"float"|"char"|"double"|"if"|"else"|"while"|"for"|"return"|"void" { keywords++; words++; }
+[a-zA-Z_][a-zA-Z0-9_]* { identifiers++; words++; }
 [ \t]+       { spaces += yyleng; }
 \n           { lines++; }
 .            { }
 %%
 
-int yywrap()
-{
+int yywrap() {
     return 1;
 }
 
-int main()
-{
+int main() {
+    printf("Name: Sangeet Harne | PRN: 24070521238\n");
     printf("Enter input (Ctrl+D to finish):\n");
     yylex();
 
