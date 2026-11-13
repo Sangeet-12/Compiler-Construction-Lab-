@@ -7,8 +7,6 @@ int yyerror(const char *s);
 %}
 
 %token NUMBER
-%left '+' '-'
-%left '*' '/'
 
 %%
 input:
@@ -16,11 +14,19 @@ input:
     ;
 
 expr:
+      expr '+' term
+    | expr '-' term
+    | term
+    ;
+
+term:
+      term '*' factor
+    | term '/' factor
+    | factor
+    ;
+
+factor:
       NUMBER
-    | expr '+' expr
-    | expr '-' expr
-    | expr '*' expr
-    | expr '/' expr
     | '(' expr ')'
     ;
 %%
