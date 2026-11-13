@@ -1,47 +1,33 @@
 %{
 #include <stdio.h>
-#include <stdlib.h>
-
 int yylex(void);
-int yyerror(const char *s);
+void yyerror(char *s);
 %}
 
-%union {
-    double val;
-}
-
-%token <val> NUMBER
-%type <val> expr
+%token NUMBER
 
 %%
-input:
-      expr '\n' { printf("Result = %g\n", $1); }
+session:
+    session expr '\n' { printf("Result: %d\n", $2); }
+    | /* empty */
     ;
 
 expr:
-      NUMBER        { $$ = $1; }
-    | expr expr '+'  { $$ = $1 + $2; }
-    | expr expr '-'  { $$ = $1 - $2; }
-    | expr expr '*'  { $$ = $1 * $2; }
-    | expr expr '/'  {
-          if ($2 == 0) {
-              yyerror("Division by zero");
-              YYABORT;
-          }
-          $$ = $1 / $2;
-      }
+    NUMBER          { $$ = $1; }
+    | expr expr '+' { $$ = $1 + $2; }
+    | expr expr '-' { $$ = $1 - $2; }
+    | expr expr '*' { $$ = $1 * $2; }
+    | expr expr '/' { $$ = $1 / $2; }
     ;
 %%
 
-int yyerror(const char *s)
-{
+void yyerror(char *s) {
     printf("Error: %s\n", s);
-    return 0;
 }
 
-int main()
-{
-    printf("Enter a postfix expression:\n");
+int main() {
+    printf("Name: Sangeet Harne | PRN: 24070521238\n");
+    printf("Enter postfix expression (e.g., 5 3 + 2 *) and press Enter:\n");
     yyparse();
     return 0;
 }
