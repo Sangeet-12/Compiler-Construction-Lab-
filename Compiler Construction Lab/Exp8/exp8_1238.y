@@ -27,7 +27,7 @@ void yyerror(char *s) {
 
 int main() {
     printf("Name: Sangeet Harne | PRN: 24070521238\n");
-    printf("Enter postfix expression (e.g., 5 3 + 2 *) and press Enter:\n");
+    printf("Enter postfix expression:\n");
     yyparse();
     return 0;
 }
