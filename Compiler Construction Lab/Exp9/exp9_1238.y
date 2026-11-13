@@ -1,66 +1,44 @@
 %{
 #include <stdio.h>
-#include <stdlib.h>
-
 int yylex(void);
-int yyerror(const char *s);
+void yyerror(char *s);
 %}
 
-%union {
-    double num;
-}
-
-%token <num> NUMBER
-%type <num> expr
-
+%token NUMBER
 %left '+' '-'
 %left '*' '/'
-%right UMINUS
 
 %%
-input:
-      /* empty */
-    | input line
-    ;
-
-line:
-      '\n'
-    | expr '\n' {
-          printf("Result = %g\n", $1);
-      }
-    | error '\n' {
-          printf("Invalid expression. Try again.\n");
-          yyerrok;
-      }
+session:
+    session expr '\n' { printf("Result: %d\n", $2); }
+    | session error '\n' { printf("Invalid syntax. Error recovered. Enter next expression:\n"); yyerrok; }
+    | /* empty */
     ;
 
 expr:
-      NUMBER              { $$ = $1; }
-    | expr '+' expr       { $$ = $1 + $3; }
-    | expr '-' expr       { $$ = $1 - $3; }
-    | expr '*' expr       { $$ = $1 * $3; }
-    | expr '/' expr       {
-          if ($3 == 0) {
-              yyerror("Division by zero");
-              $$ = 0;
-          } else {
-              $$ = $1 / $3;
-          }
-      }
-    | '-' expr %prec UMINUS { $$ = -$2; }
-    | '(' expr ')'        { $$ = $2; }
+    NUMBER          { $$ = $1; }
+    | expr '+' expr { $$ = $1 + $3; }
+    | expr '-' expr { $$ = $1 - $3; }
+    | expr '*' expr { $$ = $1 * $3; }
+    | expr '/' expr { 
+        if ($3 == 0) { 
+            yyerror("Divide by zero"); 
+            $$ = 0; 
+        } else { 
+            $$ = $1 / $3; 
+        } 
+    }
+    | '(' expr ')'  { $$ = $2; }
     ;
 %%
 
-int yyerror(const char *s)
-{
+void yyerror(char *s) {
     printf("Error: %s\n", s);
-    return 0;
 }
 
-int main()
-{
-    printf("Desk Calculator (Ctrl+D to exit)\n");
+int main() {
+    printf("Name: Sangeet Harne | PRN: 24070521238\n");
+    printf("Enter expression:\n");
     yyparse();
     return 0;
 }
