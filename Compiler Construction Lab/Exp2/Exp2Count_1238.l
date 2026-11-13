@@ -21,7 +21,7 @@ int yywrap() {
 
 int main() {
     printf("Name: Sangeet Harne | PRN: 24070521238\n");
-    printf("Enter input (Ctrl+D to finish):\n");
+    printf("Enter input:\n");
     yylex();
 
     printf("\nComments: %d\n", comments);
